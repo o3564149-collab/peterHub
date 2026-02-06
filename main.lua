@@ -1,67 +1,116 @@
--- [[ PETER HUB - OFFICIAL RELEASE ]] --
--- [[ OWNER: MASTER SAJJAD | DEV: PETER ]] --
+-- [[ PETER HUB - V13.0 FINAL ]] --
+-- [[ المطور: بيتر | الحقوق: @oro2c ]] --
 
--- 1. نظام الترحيب الملون (Intro)
-local function CreateIntro()
-    local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
-    local TextLabel = Instance.new("TextLabel", ScreenGui)
-    TextLabel.Size = UDim2.new(0, 500, 0, 100)
-    TextLabel.Position = UDim2.new(0.5, -250, 0.4, -50)
-    TextLabel.BackgroundTransparency = 1
-    TextLabel.Text = "PETER HUB IS LOADING..."
-    TextLabel.Font = Enum.Font.SpecialElite
-    TextLabel.TextSize = 60
-    TextLabel.TextStrokeTransparency = 0
+-- 1. نظام الدخول الفخم (نفس السكربت المطلوب)
+local function StartIntro()
+    local sg = Instance.new("ScreenGui", game.CoreGui)
+    local f = Instance.new("Frame", sg)
+    f.Size = UDim2.new(1, 0, 1, 0)
+    f.BackgroundColor3 = Color3.new(0, 0, 0)
+    local l = Instance.new("TextLabel", f)
+    l.Size = UDim2.new(0, 500, 0, 100)
+    l.Position = UDim2.new(0.5, -250, 0.5, -50)
+    l.BackgroundTransparency = 1
+    l.Text = "PETER HUB"
+    l.TextColor3 = Color3.new(1, 1, 1)
+    l.TextSize = 80
+    l.Font = Enum.Font.GothamBold
+    l.TextTransparency = 1
     
-    spawn(function()
-        local colors = {
-            Color3.fromRGB(255, 0, 0), Color3.fromRGB(0, 255, 0), 
-            Color3.fromRGB(0, 0, 255), Color3.fromRGB(255, 255, 0)
-        }
-        for i = 1, 10 do -- سيغير الألوان بسرعة ثم يختفي
-            TextLabel.TextColor3 = colors[i % #colors + 1]
-            task.wait(0.3)
-        end
-        ScreenGui:Destroy()
-    end)
+    game:GetService("TweenService"):Create(l, TweenInfo.new(1), {TextTransparency = 0}):Play()
+    task.wait(2)
+    game:GetService("TweenService"):Create(f, TweenInfo.new(1), {BackgroundTransparency = 1}):Play()
+    game:GetService("TweenService"):Create(l, TweenInfo.new(1), {TextTransparency = 1}):Play()
+    task.wait(1)
+    sg:Destroy()
 end
+spawn(StartIntro)
 
--- تشغيل الترحيب أولاً
-CreateIntro()
-task.wait(3) -- انتظار بسيط لضمان تحميل المكتبة
-
--- 2. تحميل مكتبة القوائم (Kavo Library)
+-- 2. حل مشكلة الأوامر (تجهيز المحرك)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("PETER HUB - بلوكس فروت 👑", "Midnight")
+local Window = Library.CreateLib("بيتر هب - القائمة الشاملة 👑", "Midnight")
 
--- [ التبويبات المعربة ] --
-local MainTab = Window:NewTab("التلفيل التلقائي 🚜")
-local RaidTab = Window:NewTab("الغارات (Raids) ⚡")
-local FruitTab = Window:NewTab("قسم الفواكه 🍎")
-local CreditTab = Window:NewTab("الحقوق والمطور 👑")
+-- [ التبويبات ] --
+local MainTab = Window:NewTab("الرئيسية 🏠")
+local FarmTab = Window:NewTab("التلفيل التلقائي 🚜")
+local FruitTab = Window:NewTab("الفواكه 🍎")
+local StatsTab = Window:NewTab("النقاط 📊")
+local TeleportTab = Window:NewTab("الانتقال ✈️")
+local MiscTab = Window:NewTab("الإعدادات ⚙️")
 
--- [[ قسم التلفيل ]] --
-local MainSection = MainTab:NewSection("تلفيل بيتر (PETER)")
-MainSection:NewToggle("بدء التلفيل التلقائي", "يقتل الجنود ويستلم المهام", function(state)
+-- [[ حل مشكلة التلفيل والضرب ]] --
+local FarmSection = FarmTab:NewSection("تلفيل بيتر الذكي")
+FarmSection:NewToggle("تفعيل التلفيل التلقائي", "سيقوم بالضرب واستلام المهام", function(state)
     getgenv().AutoFarm = state
-    while getgenv().AutoFarm do task.wait()
-        pcall(function()
-            -- كود القتل السريع الذي برمجناه
+    spawn(function()
+        while getgenv().AutoFarm do task.wait()
+            pcall(function()
+                local player = game.Players.LocalPlayer
+                -- التحقق من وجود السلاح وتجهيزه تلقائياً للضرب
+                if not player.Character:FindFirstChildOfClass("Tool") then
+                    for _, v in pairs(player.Backpack:GetChildren()) do
+                        if v:IsA("Tool") and (v.ToolTip == "Melee" or v.Name:find("Sword")) then
+                            player.Character.Humanoid:EquipTool(v)
+                        end
+                    end
+                end
+                -- محرك البحث عن الوحوش والضرب
+                for _, v in pairs(game.Workspace.Enemies:GetChildren()) do
+                    if v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+                        v.HumanoidRootPart.CanCollide = false
+                        player.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 5)
+                        game:GetService("VirtualUser"):CaptureController()
+                        game:GetService("VirtualUser"):Button1Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+                    end
+                end
+            end)
+        end
+    end)
+end)
+
+-- [[ ميزة تجميع الفواكه من الأرض ]] --
+local FruitSection = FruitTab:NewSection("صيد الفواكه")
+FruitSection:NewButton("جمع فواكه الخريطة", "يجلب كل الفواكه المرمية للأرض إليك", function()
+    for _, v in pairs(game.Workspace:GetChildren()) do
+        if v:IsA("Tool") and v.Name:find("Fruit") then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Handle.CFrame
+        end
+    end
+end)
+
+FruitSection:NewButton("سبين فاكهة عشوائية", "شراء عن بعد", function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin", "BuyItem")
+end)
+
+-- [[ ميزة الطيران (Fly) ]] --
+local TeleSection = TeleportTab:NewSection("نظام التنقل")
+TeleSection:NewToggle("تفعيل الطيران (Fly)", "تحرك بحرية في الخريطة", function(state)
+    getgenv().Fly = state
+    local lp = game.Players.LocalPlayer
+    local mouse = lp:GetMouse()
+    if state then
+        local bg = Instance.new("BodyGyro", lp.Character.HumanoidRootPart)
+        local bv = Instance.new("BodyVelocity", lp.Character.HumanoidRootPart)
+        bg.P = 9e4; bg.maxTorque = Vector3.new(9e9, 9e9, 9e9); bg.cframe = lp.Character.HumanoidRootPart.CFrame
+        bv.velocity = Vector3.new(0, 0.1, 0); bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+        spawn(function()
+            while getgenv().Fly do task.wait()
+                lp.Character.Humanoid.PlatformStand = true
+                bv.velocity = mouse.Hit.lookVector * 100
+                bg.cframe = CFrame.new(lp.Character.HumanoidRootPart.Position, mouse.Hit.p)
+            end
+            bg:Destroy(); bv:Destroy(); lp.Character.Humanoid.PlatformStand = false
         end)
     end
 end)
 
--- [[ قسم الغارات ]] --
-local RaidSection = RaidTab:NewSection("إدارة الغارات")
-RaidSection:NewButton("شراء رقاقة وبدء غارة", "Start", function() 
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsCustomer", "BuyChip", "Flame")
-    task.wait(1)
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("RaidsCustomer", "StartRaid")
+-- [[ قسم الإعدادات ]] --
+local MiscSection = MiscTab:NewSection("حماية بيتر")
+MiscSection:NewToggle("ضد الأفك (Anti-AFK)", "يمنع الطرد", function(state)
+    local vu = game:GetService("VirtualUser")
+    game.Players.LocalPlayer.Idled:connect(function()
+        if state then vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame) task.wait(1) vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame) end
+    end)
 end)
 
--- [[ قسم الحقوق - هنا يظهر تعبك يا سجاد ]] --
-local CreditSection = CreditTab:NewSection("صنع بواسطة: MASTER SAJJAD")
-CreditSection:NewButton("يوزر القناة: @oro2c", "اضغط للنسخ", function()
-    setclipboard("oro2c")
-end)
-CreditSection:NewLabel("إصدار السكربت: V10.0 المطور")
+MiscTab:NewSection("المطور: بيتر"):NewButton("قناتي: @oro2c", "نسخ", function() setclipboard("oro2c") end)
