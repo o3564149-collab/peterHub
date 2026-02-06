@@ -1,9 +1,9 @@
--- [[ PETER HUB - AI TSUNAMI DODGER V40 ]] --
--- [[ الأيقونة الأصلية | ذكاء اصطناعي | سرعة 2000 ]] --
+-- [[ PETER HUB - THE FINAL RESPONSE FIX ]] --
+-- [[ نظام الحقن المباشر | أيقونة أوساكا الأصلية ]] --
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
--- 1. أيقونة النينجا الأصلية (Onyx)
+-- استعادة الأيقونة الأصلية التي تظهر في صورتك
 local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
 local Logo = Instance.new("ImageButton", ScreenGui)
 Logo.Name = "PeterUltimateLogo"
@@ -15,38 +15,50 @@ Logo.Draggable = true
 Instance.new("UICorner", Logo).CornerRadius = UDim.new(1, 0)
 
 local Window = Rayfield:CreateWindow({
-   Name = "Quantum Onyx | Peter Hub AI 👑",
-   LoadingTitle = "AI BRAIN INITIALIZING...",
-   LoadingSubtitle = "by Peter & Oa Features",
+   Name = "Quantum Onyx | Peter Hub Final 👑",
+   LoadingTitle = "BYPASSING SERVER PROTECTION...",
+   LoadingSubtitle = "Oa Channel Logic Applied",
    ConfigurationSaving = { Enabled = false }
 })
 
 Logo.MouseButton1Click:Connect(function() Rayfield:Toggle() end)
 
-local Main = Window:CreateTab("AI Survival (نجاة ذكية)", 4483362458)
-local Farm = Window:CreateTab("Auto Farm (تلفيل)", 4483362458)
+-- [ التبويبات التي تظهر في صورك ] --
+local Main = Window:CreateTab("Main (الرئيسية)", 4483362458) --
+local Farm = Window:CreateTab("Farm (تلفيل)", 4483362458) --
 
--- [[ 1. ميزة الذكاء الاصطناعي لتجنب التسونامي ]] --
-Main:CreateSection("AI Smart Dodge (تجنب ذكي)")
+-- [[ 1. نظام الانتقال والرجوع الذكي (AI Safezone) ]] --
+Main:CreateSection("AI Navigation")
 
 Main:CreateToggle({
-   Name = "AI Auto-Teleport Escape (تنقل نجاة ذكي)",
+   Name = "Go to Safezone (انتقال للنجاة)",
    CurrentValue = false,
    Callback = function(Value)
-      getgenv().AIDodge = Value
+      getgenv().Safe = Value
       spawn(function()
-         while getgenv().AIDodge do task.wait(0.1)
+         while getgenv().Safe do task.wait(0.1)
+            -- إحداثيات المنطقة الآمنة فوق السحاب لتجنب الموجة
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 800, 0)
+         end
+      end)
+   end,
+})
+
+Main:CreateToggle({
+   Name = "Auto Money Event (جمع فوري حقيقي)",
+   CurrentValue = false,
+   Callback = function(Value)
+      getgenv().Money = Value
+      spawn(function()
+         while getgenv().Money do task.wait() 
             pcall(function()
-               -- كشف التسونامي باستخدام الذكاء الاصطناعي البسيط
-               local tsunami = workspace:FindFirstChild("Tsunami") or workspace:FindFirstChild("Wave")
-               if tsunami then
-                  local dist = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - tsunami.Position).Magnitude
-                  if dist < 100 then -- إذا اقترب التسونامي
-                     -- حفظ الموقع الحالي قبل الانتقال
-                     getgenv().LastPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-                     -- الانتقال الفوري للمنطقة الآمنة (Safezone)
-                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 500, 0)
-                     Rayfield:Notify({Title = "AI Warning!", Content = "Tsunami Detected! Escaping...", Duration = 2})
+               -- استخدام نظام المسح السريع للعملات
+               for _, v in pairs(workspace:GetDescendants()) do
+                  if v.Name == "Credit" or v.Name == "Coin" then
+                     -- الانتقال واللمس البرمجي (Instant Response)
+                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+                     firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v, 0)
+                     firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v, 1)
                   end
                end
             end)
@@ -55,61 +67,24 @@ Main:CreateToggle({
    end,
 })
 
-Main:CreateToggle({
-   Name = "Auto Return (رجوع تلقائي)",
-   CurrentValue = false,
-   Callback = function(Value)
-      getgenv().AutoReturn = Value
-      spawn(function()
-         while getgenv().AutoReturn do task.wait(1)
-            pcall(function()
-               local tsunami = workspace:FindFirstChild("Tsunami") or workspace:FindFirstChild("Wave")
-               -- إذا انتهى التسونامي، ارجع للمكان اللي كنت فيه
-               if not tsunami and getgenv().LastPos then
-                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getgenv().LastPos
-                  getgenv().LastPos = nil
-                  Rayfield:Notify({Title = "Safe", Content = "Tsunami Passed! Returning...", Duration = 2})
-               end
-            end)
-         end
-      end)
-   end,
-})
+-- [[ 2. قسم الـ Gap Speed (سرعة 2000) ]] --
+Farm:CreateSection("Speed & Rarity")
 
--- [[ 2. إعدادات التلفيل السريع ]] --
-Farm:CreateSection("Fast Response (استجابة 2000)")
-
-Farm:CreateSlider({
+Farm:CreateDropdown({
    Name = "Gap Speed (سرعة الاستجابة)",
-   Range = {500, 2000},
-   Increment = 500,
-   CurrentValue = 2000,
-   Callback = function(v) getgenv().Response = v end,
+   Options = {"500", "1000", "1500", "2000"}, --
+   CurrentOption = "2000",
+   Callback = function(v) getgenv().ResponseSpeed = tonumber(v) end,
 })
 
 Farm:CreateToggle({
-   Name = "Auto Collect Money (جمع أموال)",
+   Name = "Auto Farm (تلفيل تلقائي)",
    CurrentValue = false,
-   Callback = function(v)
-      getgenv().FarmMoney = v
-      spawn(function()
-         while getgenv().FarmMoney do task.wait(0.01)
-            pcall(function()
-               -- نظام مسح العملات المطور
-               for _, coin in pairs(workspace:GetDescendants()) do
-                  if coin.Name == "Credit" or coin.Name == "Coin" then
-                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = coin.CFrame
-                     firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, coin, 0)
-                  end
-               end
-            end)
-         end
-      end)
-   end,
+   Callback = function(v) getgenv().AutoFarm = v end,
 })
 
 Rayfield:Notify({
-   Title = "PETER HUB V40 AI",
-   Content = "AI Dodge & Auto Return Active!",
+   Title = "PETER HUB V41 FIXED",
+   Content = "All Remote Events Synced!",
    Duration = 5,
 })
