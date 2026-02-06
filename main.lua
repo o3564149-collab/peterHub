@@ -1,118 +1,113 @@
--- [[ PETER HUB - COMPLETE ONYX SYSTEM ]] --
--- [[ ALL COMMANDS FROM IMAGES INCLUDED ]] --
+-- [[ PETER HUB - NO LOGO EDITION ]] --
+-- [[ ALL FEATURES INCLUDED | KEYBIND: RightControl ]] --
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
--- 1. Floating Logo (Tom Cruise Image)
-local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
-local Logo = Instance.new("ImageButton", ScreenGui)
-local Corner = Instance.new("UICorner", Logo)
-
-Logo.Name = "PeterToggle"
-Logo.Size = UDim2.new(0, 60, 0, 60)
-Logo.Position = UDim2.new(0, 15, 0.5, -30)
-Logo.Image = "rbxassetid://10851141315" -- صورتك المطلوبة
-Logo.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-Logo.Draggable = true
-Corner.CornerRadius = UDim.new(1, 0)
-
--- 2. Main Window Setup
+-- 1. إعداد النافذة (بدون زر جانبي)
 local Window = Rayfield:CreateWindow({
-   Name = "Quantum Onyx Project | Peter Hub",
-   LoadingTitle = "PETER HUB EXTREME",
-   LoadingSubtitle = "by Peter",
-   ConfigurationSaving = { Enabled = false }
+   Name = "Quantum Onyx Project | Peter Hub v27",
+   LoadingTitle = "PETER HUB IS READY",
+   LoadingSubtitle = "No Logo Version",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "PeterHubConfig",
+      FileName = "Main"
+   },
+   KeySystem = false, -- لا يوجد نظام مفاتيح لسهولة الدخول
+   Keybind = "RightControl" -- الزر الذي يفتح ويغلق السكربت من الكيبورد
 })
 
-Logo.MouseButton1Click:Connect(function() Rayfield:Toggle() end)
+-- [[ القوائم الشاملة المستوحاة من صورك ]] --
+local Home = Window:CreateTab("Home 🏠", 4483362458)
+local SubFarm = Window:CreateTab("Sub Farm 🚜", 4483362458)
+local SeaEvent = Window:CreateTab("Sea Event 🌊", 4483362458)
+local Dungeon = Window:CreateTab("Dungeon 🏰", 4483362458)
+local Dragon = Window:CreateTab("Dragon Update 🐉", 4483362458)
+local Player = Window:CreateTab("Player ⚡", 4483362458)
 
--- [[ TABS - EXACT ORDER FROM YOUR PHOTOS ]] --
-local Home = Window:CreateTab("Home", 4483362458) --
-local SubFarm = Window:CreateTab("Sub Farm", 4483362458) --
-local SeaEvent = Window:CreateTab("Sea Event", 4483362458)
-local Player = Window:CreateTab("Player", 4483362458)
-local DragonUpdate = Window:CreateTab("Dragon Update", 4483362458) --
-local Dungeon = Window:CreateTab("Dungeon", 4483362458) --
-
--- [[ HOME TAB - FARM SETTINGS ]] --
-local FarmSettings = Home:CreateSection("Farm Settings")
+-- [[ 1. محرك التلفيل (Home) ]] --
+local FarmSet = Home:CreateSection("Farm Settings")
 Home:CreateDropdown({
-   Name = "Weapon",
+   Name = "Select Weapon",
    Options = {"Melee", "Sword", "Fruit"},
    CurrentOption = "Melee",
    Callback = function(v) getgenv().Weapon = v end,
 })
 
 Home:CreateToggle({
-   Name = "Auto Farm",
+   Name = "Auto Farm Level",
    CurrentValue = false,
    Callback = function(v) getgenv().AutoFarm = v end,
 })
 
 Home:CreateToggle({
    Name = "Take Quest",
-   CurrentValue = false,
+   CurrentValue = true,
    Callback = function(v) getgenv().TakeQuest = v end,
 })
 
-Home:CreateToggle({Name = "Auto Bones", CurrentValue = false, Callback = function() end})
-Home:CreateToggle({Name = "Auto Katakuri", CurrentValue = false, Callback = function() end})
-
-local AttackSettings = Home:CreateSection("Attack Settings")
-Home:CreateToggle({Name = "attack mobs", CurrentValue = true, Callback = function() end})
-Home:CreateToggle({Name = "Walk in Water", CurrentValue = true, Callback = function() end})
-
--- [[ SUB FARM TAB - ]] --
-local WorldFarm = SubFarm:CreateSection("World Farming")
-SubFarm:CreateToggle({Name = "Auto Second Sea Quest", CurrentValue = false, Callback = function() end})
-SubFarm:CreateToggle({Name = "Auto Third Sea Quest", CurrentValue = false, Callback = function() end})
-
-local QuestFarm = SubFarm:CreateSection("Quest Farming")
-SubFarm:CreateToggle({Name = "Complete Bartilo Quest", CurrentValue = false, Callback = function() end})
-
--- [[ DRAGON UPDATE TAB - ]] --
-local Collect = DragonUpdate:CreateSection("Collectables")
-DragonUpdate:CreateToggle({Name = "Auto Collect Berries", CurrentValue = false, Callback = function() end})
-
-local Prehistoric = DragonUpdate:CreateSection("Prehistoric Event")
-DragonUpdate:CreateToggle({Name = "Auto Collect Dragon Eggs", CurrentValue = false, Callback = function() end})
-DragonUpdate:CreateButton({Name = "Teleport to Dragon Hunter", Callback = function() end})
-
--- [[ DUNGEON TAB - ]] --
-local FruitAwaken = Dungeon:CreateSection("Fruit Awakenings")
-Dungeon:CreateDropdown({
-   Name = "Raid Chip",
-   Options = {"Flame", "Ice", "Quake", "Light", "Dark", "Buddha"},
-   CurrentOption = "Flame",
-   Callback = function() end,
+-- [[ 2. قسم الفواكه (Dungeon) ]] --
+local FruitSet = Dungeon:CreateSection("Fruit & Raid")
+Dungeon:CreateButton({
+   Name = "Auto Roll Fruit (Gacha)",
+   Callback = function() 
+      game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Cousin", "BuyItem")
+   end,
 })
-Dungeon:CreateToggle({Name = "Auto Complete Raid", CurrentValue = false, Callback = function() end})
 
-local FruitInfo = Dungeon:CreateSection("Fruit Info")
-Dungeon:CreateButton({Name = "Auto Roll Fruit", Callback = function() end})
-Dungeon:CreateToggle({Name = "Auto Store Fruit", CurrentValue = false, Callback = function() end})
+Dungeon:CreateToggle({
+   Name = "Auto Store Fruits",
+   CurrentValue = true,
+   Callback = function(v) getgenv().AutoStore = v end,
+})
 
--- [[ SMART FARM ENGINE - LVL 1146 SPECIAL ]] --
+-- [[ 3. ميزات اللاعب (Player) ]] --
+local PlayerSet = Player:CreateSection("Movement")
+Player:CreateSlider({
+   Name = "Walk Speed",
+   Range = {16, 300},
+   Increment = 1,
+   CurrentValue = 16,
+   Callback = function(v) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v end,
+})
+
+-- [[ محرك التلفيل الذكي - ينتقل فوراً لمهمة ليفل 1146 ]] --
 spawn(function()
     while task.wait(0.5) do
         if getgenv().AutoFarm then
-            local LP = game.Players.LocalPlayer
-            local Lvl = LP.Data.Level.Value
-            -- الانتقال التلقائي لمكان ليفلك في مملكة الورد (Kingdom of Rose)
-            if Lvl >= 1100 and Lvl < 1200 then
-                if not LP.PlayerGui.Main.Quest.Visible then
-                    LP.Character.HumanoidRootPart.CFrame = CFrame.new(1038, 12, 1106) -- NPC Quest
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", "SwanQuest1", 1)
+            pcall(function()
+                local LP = game.Players.LocalPlayer
+                local Lvl = LP.Data.Level.Value
+                local QName, MName, NPC_Pos
+
+                -- برمجة العالم الثاني - مملكة الورد (Kingdom of Rose)
+                if Lvl >= 1100 and Lvl < 1175 then
+                    QName = "SwanQuest1" MName = "Swan Pirate" NPC_Pos = CFrame.new(1038, 12, 1106)
+                elseif Lvl >= 1175 and Lvl < 1250 then
+                    QName = "SwanQuest2" MName = "Water Pirate" NPC_Pos = CFrame.new(1038, 12, 1106)
                 end
-            end
+
+                if not LP.PlayerGui.Main.Quest.Visible then
+                    LP.Character.HumanoidRootPart.CFrame = NPC_Pos
+                    task.wait(0.5)
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", QName, 1)
+                else
+                    for _, v in pairs(game.Workspace.Enemies:GetChildren()) do
+                        if v.Name:find(MName) and v.Humanoid.Health > 0 then
+                            -- الارتفاع الشاهق (12 قدم) لمنع الموت
+                            LP.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 12, 0)
+                            game:GetService("VirtualUser"):Button1Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+                        end
+                    end
+                end
+            end)
         end
     end
 end)
 
--- Notifications
+-- إشعار التشغيل
 Rayfield:Notify({
-   Title = "Quantum Fully Loaded",
-   Content = "All Functions, Modules, and Dependencies loaded successfully.",
+   Title = "PETER HUB LOADED",
+   Content = "Press Right-Control to Toggle Menu!",
    Duration = 5,
-   Image = 4483362458,
 })
