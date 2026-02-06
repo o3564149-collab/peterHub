@@ -1,129 +1,115 @@
--- [[ PETER HUB - HYBRID OSAKA & ONYX ]] --
--- [[ ALL BUGS FIXED | INSTANT RESPONSE ]] --
+-- [[ PETER HUB - AI TSUNAMI DODGER V40 ]] --
+-- [[ الأيقونة الأصلية | ذكاء اصطناعي | سرعة 2000 ]] --
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
+-- 1. أيقونة النينجا الأصلية (Onyx)
+local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+local Logo = Instance.new("ImageButton", ScreenGui)
+Logo.Name = "PeterUltimateLogo"
+Logo.Size = UDim2.new(0, 60, 0, 60)
+Logo.Position = UDim2.new(0, 15, 0.5, -30)
+Logo.Image = "rbxassetid://10851141315"
+Logo.BackgroundTransparency = 1
+Logo.Draggable = true
+Instance.new("UICorner", Logo).CornerRadius = UDim.new(1, 0)
+
 local Window = Rayfield:CreateWindow({
-   Name = "Peter Hub v37 | Ultimate Hybrid 👑",
-   LoadingTitle = "CONNECTING TO SERVERS (FAST)...",
-   LoadingSubtitle = "by Peter",
-   ConfigurationSaving = { Enabled = false },
-   Keybind = "RightControl"
+   Name = "Quantum Onyx | Peter Hub AI 👑",
+   LoadingTitle = "AI BRAIN INITIALIZING...",
+   LoadingSubtitle = "by Peter & Oa Features",
+   ConfigurationSaving = { Enabled = false }
 })
 
--- [ التبويبات / Tabs ] --
-local Main = Window:CreateTab("Main (الأساسي)", 4483362458) --
-local Farm = Window:CreateTab("Farm (التلفيل)", 4483362458) --
-local Player = Window:CreateTab("Player (اللاعب)", 4483362458)
+Logo.MouseButton1Click:Connect(function() Rayfield:Toggle() end)
 
--- [[ 1. ميزات الصورة الأولى (Onyx) + Osaka Main ]] --
-Main:CreateSection("Onyx Features (ميزات أونيكس)")
+local Main = Window:CreateTab("AI Survival (نجاة ذكية)", 4483362458)
+local Farm = Window:CreateTab("Auto Farm (تلفيل)", 4483362458)
 
-Main:CreateDropdown({
-   Name = "Weapon (السلاح)",
-   Options = {"Melee", "Sword", "Fruit"},
-   CurrentOption = "Melee",
-   Callback = function(v) getgenv().Weapon = v end,
-})
+-- [[ 1. ميزة الذكاء الاصطناعي لتجنب التسونامي ]] --
+Main:CreateSection("AI Smart Dodge (تجنب ذكي)")
 
 Main:CreateToggle({
-   Name = "Auto Farm (تلفيل تلقائي)",
+   Name = "AI Auto-Teleport Escape (تنقل نجاة ذكي)",
    CurrentValue = false,
-   Callback = function(v) getgenv().AutoFarm = v end,
-})
-
-Main:CreateToggle({
-   Name = "Take Quest (أخذ المهمة)",
-   CurrentValue = false,
-   Callback = function(v) getgenv().TakeQuest = v end,
-})
-
-Main:CreateSection("Osaka Main (ميزات أوساكا)")
-
-Main:CreateToggle({
-   Name = "VIP Walls (تخطي جدران VIP)",
-   CurrentValue = false,
-   Callback = function(v)
-      -- كود لإلغاء تصادم جدران الـ VIP فوراً
-      for _, part in pairs(workspace:GetDescendants()) do
-         if part.Name == "VIPWalls" or part.Name == "VIP" then
-            part.CanCollide = not v
-         end
-      end
-   end,
-})
-
-Main:CreateToggle({
-   Name = "Auto Money Event (حدث المال التلقائي)",
-   CurrentValue = false,
-   Callback = function(v) getgenv().AutoMoney = v end,
-})
-
--- [[ 2. قسم التلفيل المتطور / Advanced Farm ]] --
-Farm:CreateSection("Zone & Rarity (المنطقة والندرة)")
-
-Farm:CreateDropdown({
-   Name = "Select Zone (اختر المنطقة)",
-   Options = {"Epic", "Legendary", "Mythical", "Cosmic", "Secret", "Celestial"},
-   Callback = function(v) getgenv().SelectedZone = v end,
-})
-
-Farm:CreateDropdown({
-   Name = "Select Rarity (اختر الندرة)",
-   Options = {"Common", "Rare", "Epic", "Legendary", "Mythical", "Cosmic", "Secret", "Celestial"},
-   Callback = function(v) getgenv().SelectedRarity = v end,
-})
-
-Farm:CreateToggle({
-   Name = "Auto Zone (تلفيل المنطقة تلقائي)",
-   CurrentValue = false,
-   Callback = function(v) getgenv().AutoZone = v end,
-})
-
--- [[ 3. محرك السرعة والخلود / Speed Gap & God Mode ]] --
-local SpeedSec = Player:CreateSection("Speed & Survival (السرعة والنجاة)")
-
-Player:CreateDropdown({
-   Name = "Gap Speed (سرعة الاستجابة)",
-   Options = {"500", "1000", "1500", "2000"}, --
-   CurrentOption = "2000",
-   Callback = function(v) getgenv().GapSpeed = tonumber(v) end,
-})
-
-Player:CreateToggle({
-   Name = "Ultimate God Mode (الخلود الأبدي)",
-   CurrentValue = false,
-   Callback = function(v)
-      getgenv().GodMode = v
+   Callback = function(Value)
+      getgenv().AIDodge = Value
       spawn(function()
-         while getgenv().GodMode do task.wait()
-            local char = game.Players.LocalPlayer.Character
-            if char and char:FindFirstChild("Humanoid") then
-               char.Humanoid.Health = 100000 -- خلود حقيقي
-            end
+         while getgenv().AIDodge do task.wait(0.1)
+            pcall(function()
+               -- كشف التسونامي باستخدام الذكاء الاصطناعي البسيط
+               local tsunami = workspace:FindFirstChild("Tsunami") or workspace:FindFirstChild("Wave")
+               if tsunami then
+                  local dist = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - tsunami.Position).Magnitude
+                  if dist < 100 then -- إذا اقترب التسونامي
+                     -- حفظ الموقع الحالي قبل الانتقال
+                     getgenv().LastPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+                     -- الانتقال الفوري للمنطقة الآمنة (Safezone)
+                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 500, 0)
+                     Rayfield:Notify({Title = "AI Warning!", Content = "Tsunami Detected! Escaping...", Duration = 2})
+                  end
+               end
+            end)
          end
       end)
    end,
 })
 
--- [[ نظام الرد السريع / Fast Response Engine ]] --
-spawn(function()
-    while task.wait() do
-        if getgenv().AutoFarmMoney then
-            -- جمع العملات بسرعة البرق بناءً على Gap Speed
+Main:CreateToggle({
+   Name = "Auto Return (رجوع تلقائي)",
+   CurrentValue = false,
+   Callback = function(Value)
+      getgenv().AutoReturn = Value
+      spawn(function()
+         while getgenv().AutoReturn do task.wait(1)
             pcall(function()
-                for _, v in pairs(workspace:GetChildren()) do
-                    if v.Name:find("Credit") or v.Name:find("Coin") then
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
-                    end
-                end
+               local tsunami = workspace:FindFirstChild("Tsunami") or workspace:FindFirstChild("Wave")
+               -- إذا انتهى التسونامي، ارجع للمكان اللي كنت فيه
+               if not tsunami and getgenv().LastPos then
+                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getgenv().LastPos
+                  getgenv().LastPos = nil
+                  Rayfield:Notify({Title = "Safe", Content = "Tsunami Passed! Returning...", Duration = 2})
+               end
             end)
-        end
-    end
-end)
+         end
+      end)
+   end,
+})
+
+-- [[ 2. إعدادات التلفيل السريع ]] --
+Farm:CreateSection("Fast Response (استجابة 2000)")
+
+Farm:CreateSlider({
+   Name = "Gap Speed (سرعة الاستجابة)",
+   Range = {500, 2000},
+   Increment = 500,
+   CurrentValue = 2000,
+   Callback = function(v) getgenv().Response = v end,
+})
+
+Farm:CreateToggle({
+   Name = "Auto Collect Money (جمع أموال)",
+   CurrentValue = false,
+   Callback = function(v)
+      getgenv().FarmMoney = v
+      spawn(function()
+         while getgenv().FarmMoney do task.wait(0.01)
+            pcall(function()
+               -- نظام مسح العملات المطور
+               for _, coin in pairs(workspace:GetDescendants()) do
+                  if coin.Name == "Credit" or coin.Name == "Coin" then
+                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = coin.CFrame
+                     firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, coin, 0)
+                  end
+               end
+            end)
+         end
+      end)
+   end,
+})
 
 Rayfield:Notify({
-   Title = "PETER HUB V37 HYBRID",
-   Content = "All Features Synced & Ready!",
+   Title = "PETER HUB V40 AI",
+   Content = "AI Dodge & Auto Return Active!",
    Duration = 5,
 })
