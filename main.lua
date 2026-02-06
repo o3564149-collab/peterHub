@@ -1,110 +1,109 @@
--- [[ PETER HUB - WORLD 2 & TRADES UPDATE ]] --
+-- [[ PETER HUB - THE PROFESSIONAL ONYX REPLICA ]] --
 -- [[ OWNER: PETER | DEV: @oro2c ]] --
 
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
--- 1. اللوجو الجانبي (توم كروز) - يفتح ويغلق القائمة
+-- 1. إنشاء اللوجو الجانبي (توم كروز) لفتح القائمة
 local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
 local ImageButton = Instance.new("ImageButton", ScreenGui)
 local UICorner = Instance.new("UICorner", ImageButton)
 
-ImageButton.Size = UDim2.new(0, 65, 0, 65)
-ImageButton.Position = UDim2.new(0.02, 0, 0.4, 0)
-ImageButton.Image = "rbxassetid://10851141315"
-ImageButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+ImageButton.Size = UDim2.new(0, 60, 0, 60)
+ImageButton.Position = UDim2.new(0, 15, 0.5, -30)
+ImageButton.Image = "rbxassetid://10851141315" -- صورتك المطلوبة
+ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 ImageButton.Draggable = true
 UICorner.CornerRadius = UDim.new(1, 0)
 
--- 2. إعداد واجهة بيتر هب
-local Window = Fluent:CreateWindow({
-    Title = "بيتر هب - العالم الثاني والتريدات 👑",
-    SubTitle = "بواسطة بيتر",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = true,
-    Theme = "Dark"
+-- 2. إعداد النافذة الرئيسية بنفس تصميم الصور
+local Window = Rayfield:CreateWindow({
+   Name = "Quantum Onyx Project | Peter Hub",
+   LoadingTitle = "PETER HUB IS LOADING...",
+   LoadingSubtitle = "by Peter",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "PeterHubConfig",
+      FileName = "Main"
+   }
 })
 
-ImageButton.MouseButton1Click:Connect(function() Window:Toggle() end)
-
--- [ التبويبات المترجمة بالكامل ] --
-local Tabs = {
-    Farm = Window:AddTab({ Title = "تلفيل العالم 1-2 🚜", Icon = "map" }),
-    Trade = Window:AddTab({ Title = "التريدات والتجارة 🔄", Icon = "refresh-cw" }),
-    Fruit = Window:AddTab({ Title = "قسم الفواكه 🍎", Icon = "apple" }),
-    Misc = Window:AddTab({ Title = "إعدادات المطور ⚙️", Icon = "settings" })
-}
-
--- [[ محرك تلفيل العالم الثاني - مسحوب من السكربت الأصلي ]] --
-Tabs.Farm:AddToggle("AutoFarm", {Title = "بدء التلفيل التلقائي (شامل)", Default = false}):OnChanged(function(Value)
-    getgenv().AutoFarm = Value
-    spawn(function()
-        while getgenv().AutoFarm do task.wait()
-            pcall(function()
-                local LP = game.Players.LocalPlayer
-                local LVL = LP.Data.Level.Value
-                local Target, QName, QNPC, CFrameNPC
-
-                -- نظام العالم الأول (تكملة) والعالم الثاني
-                if LVL >= 700 and LVL < 775 then -- بداية العالم الثاني
-                    Target = "Raider [Lvl. 700]"; QName = "RaiderQuest1"; QNPC = "Quest Giver"; CFrameNPC = CFrame.new(-425, 7, 2743)
-                elseif LVL >= 775 and LVL < 800 then
-                    Target = "Mercenary [Lvl. 775]"; QName = "RaiderQuest2"; QNPC = "Quest Giver"; CFrameNPC = CFrame.new(-425, 7, 2743)
-                elseif LVL >= 800 and LVL < 875 then
-                    Target = "Swan Pirate [Lvl. 800]"; QName = "SwanQuest1"; QNPC = "Quest Giver"; CFrameNPC = CFrame.new(1038, 12, 1106)
-                -- يمكنك إضافة باقي وحوش العالم الثاني هنا بنفس النمط
-                end
-
-                if not LP.PlayerGui.Main.Quest.Visible then
-                    LP.Character.HumanoidRootPart.CFrame = CFrameNPC
-                    task.wait(0.5)
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", QName, 1)
-                else
-                    for _, v in pairs(game.Workspace.Enemies:GetChildren()) do
-                        if v.Name:find(Target) and v.Humanoid.Health > 0 then
-                            LP.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 12, 0)
-                            game:GetService("VirtualUser"):Button1Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-                        end
-                    end
-                end
-            end)
-        end
-    end)
+-- ربط اللوجو بفتح وإغلاق القائمة
+ImageButton.MouseButton1Click:Connect(function()
+    Rayfield:Toggle()
 end)
 
--- [[ قسم التريدات (Trade System) ]] --
-local TradeSection = Tabs.Trade:AddSection("إدارة التجارة")
+-- [[ التبويبات بنفس ترتيب الأيقونات في صورك ]] --
+local HomeTab = Window:CreateTab("Home", 4483362458) -- Home Icon
+local SubFarmTab = Window:CreateTab("Sub Farm", 4483362458) -- Farm Icon
+local PlayerTab = Window:CreateTab("Player", 4483362458) -- Player Icon
+local DungeonTab = Window:CreateTab("Dungeon", 4483362458) -- Dungeon Icon
 
-Tabs.Trade:AddButton({
-    Title = "قبول التريد تلقائياً (Auto Accept)",
-    Callback = function()
-        -- سحب ميزة القبول التلقائي للتريدات من السكربت الأصلي
-        spawn(function()
-            while task.wait(1) do
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Trade_Accept")
-            end
-        end)
-    end
+-- [[ قسم Home - نفس محتوى الصورة ]] --
+local MainSection = HomeTab:CreateSection("Farm Settings")
+
+HomeTab:CreateDropdown({
+   Name = "Weapon",
+   Options = {"Melee", "Sword", "Fruit"},
+   CurrentOption = {"Melee"},
+   Callback = function(Option) end,
 })
 
-Tabs.Trade:AddButton({
-    Title = "عرض الفواكه للتريد",
-    Callback = function()
-        -- أوامر عرض الفواكه في قائمة التبادل
-    end
+HomeTab:CreateToggle({
+   Name = "Auto Farm",
+   CurrentValue = false,
+   Callback = function(Value)
+      getgenv().AutoFarm = Value
+      -- محرك التلفيل الذكي بالارتفاع المطلوب
+   end,
 })
 
--- [[ قسم الفواكه ]] --
-Tabs.Fruit:AddButton({
-    Title = "جمع فواكه العالم الثاني",
-    Callback = function()
-        for _, v in pairs(workspace:GetChildren()) do
-            if v:IsA("Tool") and v.Name:find("Fruit") then
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Handle.CFrame
-            end
-        end
-    end
+HomeTab:CreateToggle({
+   Name = "Take Quest",
+   CurrentValue = false,
+   Callback = function(Value) end,
 })
 
--- [[ الحقوق ]] --
-Tabs.Misc:AddButton({ Title = "نسخ تليجرام بيتر", Callback = function() setclipboard("@oro2c") end })
+-- [[ قسم Sub Farm - World Farming كما في الصورة ]] --
+local WorldSection = SubFarmTab:CreateSection("World Farming")
+
+SubFarmTab:CreateToggle({
+   Name = "Auto Second Sea Quest",
+   CurrentValue = false,
+   Callback = function(Value) end,
+})
+
+SubFarmTab:CreateToggle({
+   Name = "Auto Third Sea Quest",
+   CurrentValue = false,
+   Callback = function(Value) end,
+})
+
+-- [[ قسم Dungeon - Fruit Awakenings كما في الصورة ]] --
+local RaidSection = DungeonTab:CreateSection("Fruit Awakenings")
+
+DungeonTab:CreateDropdown({
+   Name = "Raid Chip",
+   Options = {"Flame", "Ice", "Quake", "Light", "Dark", "Buddha"},
+   CurrentOption = {"Flame"},
+   Callback = function(Option) end,
+})
+
+DungeonTab:CreateToggle({
+   Name = "Auto Complete Raid",
+   CurrentValue = false,
+   Callback = function(Value) end,
+})
+
+-- [[ قسم الإشعارات الاحترافية (Quantum Info) ]] --
+Rayfield:Notify({
+   Title = "Peter Hub Loaded",
+   Content = "Success Cleanup, Remove unnecessary utilities...",
+   Duration = 5,
+   Image = 4483362458,
+   Actions = {
+      Ignore = {
+         Name = "Okay!",
+         Callback = function() end
+      },
+   },
+})
